@@ -1,0 +1,129 @@
+from tkinter import *
+import random
+from tkinter import messagebox
+
+# ============================ CREATE MAIN WINDOW =============================
+mainWindow = Tk() # Create main window
+mainWindow.title("Ultimate Rock Paper Scissors!") # Create title for main window
+mainWindow.geometry("500x500") # Set the size of the main window
+# =============================================================================
+
+# ================================ Variables ==================================
+choices = ["Rock", "Paper", "Scissors"]
+userChoice = ""
+match_result = ""
+computerChoice = random.choice(choices) # Computer chooses a random choice from the "choices" list
+# =============================================================================
+
+# =========================== CREATE GAME FUNCTIONS ===========================
+# Rock button function
+def isrock():
+    global userChoice, match_result
+    userChoice = "Rock"
+    if computerChoice == "Rock":
+        match_result = "It's a tie!"
+    elif computerChoice == "Paper":
+        match_result = "The computer Wins!"
+    else:
+        match_result = "You win!"
+
+# Paper button function
+def ispaper():
+    global userChoice, match_result
+    userChoice = "Paper"
+    if computerChoice == "Paper":
+        match_result = "It's a tie!"
+    elif computerChoice == "Scissor":
+        match_result = "The computer Wins!"
+    else:
+        match_result = "You win!"
+
+# Scissor button function
+def isscissors():
+    global userChoice, match_result
+    userChoice = "Scissors"
+    if computerChoice == "Scissors":
+        match_result = "It's a tie!"
+    elif computerChoice == "Rock":
+        match_result = "The computer Wins!"
+    else:
+        match_result = "You win!"
+
+# Open second window function
+def open_secondWindow():
+    global userChoice, computerChoice, match_result
+    secondWindow = Toplevel(mainWindow) # Create second window
+    secondWindow.geometry("500x500")  # Set the size of the second window
+    frame3 = Label(secondWindow, text=f"You chose: {userChoice}\nComputer chose: {computerChoice}\n\n{match_result}\n(Please close this window to play again)") # Second window text box
+    frame3.pack() # Fit everything into the window
+    secondWindow.title("Results!") # Title of second window 
+    # When the user hit the "SUBMIT" button, the game will open a second window and display the choices, along with who wins
+    if match_result == "You win!": 
+        secondWindow.configure(bg="green")
+    elif match_result == "The computer Wins!":
+        secondWindow.configure(bg="red")
+    else:
+        secondWindow.configure(bg="white")
+     # ^ The background color of the second window will change depending on win conditions
+
+# Exit function
+def kill():
+    mainWindow.destroy()
+    # When the user clicks the EXIT GAME button, the main window closes and the game ends.
+
+# Reset CPU function
+def reset():
+    global userChoice, computerChoice, match_result
+    userChoice = ""
+    match_result = ""
+    computerChoice = random.choice(choices)
+    messagebox.showinfo("Game Reset", "Game has been reset!")
+    # When the user clicks the reset button, the game is reset and the user & computer choice variables are reset to empty strings.
+# =========================================================================
+
+
+# ============================ CREATE FRAMES ============================
+# Create choice frame
+frame1 = LabelFrame(mainWindow, text="Pick your choice", padx=10, pady=10)
+frame1.grid(row=1, column=0, columnspan=10, rowspan=10)
+
+# Create Submit frame
+frame2 = LabelFrame(mainWindow, text="Submit?", padx=10, pady=10)
+frame2.grid(row=2, column=25, columnspan=10, rowspan=10)
+
+# Create Exit frame
+frame3 = LabelFrame(mainWindow, text="Exit game", padx=10, pady=10)
+frame3.grid(row=2, column=100, columnspan=10, rowspan=10)
+# =========================================================================
+
+
+# ====================== CREATE BUTTONS AND LABELS ========================
+# Rock Button
+rockButton = Button(frame1, command=isrock, text="Rock", bg="white", fg="black")
+rockButton.grid(row=1, column=30)
+
+# Paper Button
+paperButton = Button(frame1, command=ispaper, text="Paper", bg="white", fg="black")
+paperButton.grid(row=2, column=30)
+
+# Scissors Button
+scissorsButton = Button(frame1, command=isscissors, text="Scissors", bg="white", fg="black")
+scissorsButton.grid(row=3, column=30)
+
+# Submit Button
+submitButton = Button(frame2, text="SUBMIT", command=open_secondWindow, bg="white", fg="black")
+submitButton.grid(row=1, column=30)
+
+# Exit Button
+exitButton = Button(frame3, text="EXIT GAME", command=kill, bg="white", fg="black")
+exitButton.grid(row=1, column=30)
+    
+# Reset Button
+resetButton = Button(frame2, text="RESET CPU", command=reset, bg="white", fg="black")
+resetButton.grid(row=2, column=30)
+# =========================================================================
+
+mainWindow.mainloop()
+
+
+
